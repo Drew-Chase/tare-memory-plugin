@@ -133,27 +133,32 @@ bench-sample:
 # ─── Plugin ──────────────────────────────────────────────────────────
 
 # Build a distributable plugin ZIP (install via Settings > Plugins > Install from Disk)
+[working-directory: 'plugin']
 dist: build-release
-    cd plugin && ./gradlew buildPlugin
+    ./gradlew buildPlugin
     @echo ""
     @echo "Plugin ZIP ready at plugin/build/distributions/"
     @echo "Install: Settings > Plugins > gear icon > Install Plugin from Disk"
 
 # Build the IntelliJ plugin (requires Gradle)
+[working-directory: 'plugin']
 plugin-build:
-    cd plugin && ./gradlew buildPlugin
+    ./gradlew buildPlugin
 
 # Run the plugin in an IDE sandbox (requires Gradle)
+[working-directory: 'plugin']
 plugin-run:
-    cd plugin && ./gradlew runIde
+    ./gradlew runIde
 
 # Verify plugin compatibility
+[working-directory: 'plugin']
 plugin-verify:
-    cd plugin && ./gradlew verifyPlugin
+    ./gradlew verifyPlugin
 
 # Clean plugin build artifacts
+[working-directory: 'plugin']
 plugin-clean:
-    cd plugin && ./gradlew clean
+    ./gradlew clean
 
 # ─── Full Pipelines ──────────────────────────────────────────────────
 
@@ -193,10 +198,9 @@ clean:
     cargo clean
 
 # Clean all generated files (Rust + plugin + dhat output)
-clean-all: clean
+clean-all: clean plugin-clean
     rm -f dhat-heap.json
     rm -rf target/tare/
-    -cd plugin && ./gradlew clean 2>/dev/null
 
 # Remove only the tare report (keeps build cache)
 clean-report:
