@@ -35,5 +35,9 @@
         <codeInsight.lineMarkerProvider
             language=""
             implementationClass="dev.tare.plugin.TareLineMarkerProvider"/>
+
+        <!-- Run configuration: one-button profiling -->
+        <configurationType
+            implementation="dev.tare.plugin.TareRunConfigurationType"/>
     </extensions>
 </idea-plugin>
