@@ -1,0 +1,19 @@
+[package]
+name = "sample"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+description = "Target crate with known allocation patterns for testing tare"
+
+[features]
+tare-profile = ["dep:dhat"]
+
+[dependencies]
+dhat = { version = "0.3.3", optional = true }
+
+[dev-dependencies]
+divan = "0.1.21"
+
+[[bench]]
+name = "alloc_bench"
+harness = false
