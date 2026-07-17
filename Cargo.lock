@@ -471,6 +471,8 @@ dependencies = [
 name = "tare-aggregate"
 version = "0.1.0"
 dependencies = [
+ "blake3",
+ "serde_json",
  "tare-schema",
 ]
 
@@ -565,6 +567,10 @@ dependencies = [
 name = "xtask"
 version = "0.1.0"
 dependencies = [
+ "blake3",
+ "serde_json",
+ "tare-aggregate",
+ "tare-collector",
  "tare-schema",
 ]
 

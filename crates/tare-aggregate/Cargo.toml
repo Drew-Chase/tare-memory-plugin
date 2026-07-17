@@ -7,3 +7,5 @@ description = "Merges runtime + static into one JSON report with content hashes"
 
 [dependencies]
 tare-schema = { path = "../tare-schema" }
+blake3 = "1.8"
+serde_json = "1"
