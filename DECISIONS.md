@@ -69,3 +69,43 @@ fn main() {
 Using `blake3` for file content hashes. Fast, no external dependencies beyond the
 crate. The hash is hex-encoded in the JSON `content_hash` field. The plugin
 recomputes it from the open `Document` text and compares — mismatch → grey/hide.
+
+---
+
+## 2026-07-17 — Phase 2: dhat v1 approach
+
+### dhat JSON post-processing (not custom GlobalAlloc)
+
+For v1, tare-collector **parses dhat's JSON output** rather than implementing a
+custom `GlobalAlloc`. dhat provides no per-allocation programmatic API — only
+aggregate `HeapStats` and a JSON file for its viewer. We parse `dhat-heap.json`,
+resolve frame strings to file:line, and attribute each allocation to the deepest
+frame under the workspace root.
+
+The `CollectorBackend` trait seam allows replacing this with a custom `GlobalAlloc`
+in v2 without changing downstream code (tare-aggregate, xtask, plugin).
+
+### dhat frame parsing edge case
+
+dhat frame strings can contain parentheses inside generic function names, e.g.:
+`alloc::string::String (*)(ref$<str$>)>`. The parser searches backward for the
+last ` (` followed by a valid `file:line:col)` pattern.
+
+---
+
+## 2026-07-17 — Phase 4: Plugin API choices
+
+### Declarative inlay hints with OwnBypassCollector
+
+- Using `OwnBypassCollector` (not `SharedBypassCollector`) because we're
+  file-level, not PSI-element-level. No Rust PSI dependency.
+- `collectHintsForFile()` iterates over JSON line data, uses
+  `Document.getLineEndOffset()` for positioning.
+- `InlineInlayPosition` with `relatedToPrevious=true` for end-of-line placement.
+- `language=""` in plugin.xml for language-agnostic registration.
+
+### blake3 on the JVM
+
+Using `io.github.rctcwyvrn:blake3:1.3` (pure Java, package
+`io.github.rctcwyvrn.blake3`). Matches the Rust blake3 crate's hex output format
+for content hash comparison.
