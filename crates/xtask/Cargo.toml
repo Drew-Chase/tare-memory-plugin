@@ -7,3 +7,7 @@ description = "cargo xtask orchestration: static / profile / all"
 
 [dependencies]
 tare-schema = { path = "../tare-schema" }
+tare-aggregate = { path = "../tare-aggregate" }
+tare-collector = { path = "../tare-collector" }
+serde_json = "1"
+blake3 = "1.8"
