@@ -1,0 +1,68 @@
+#!/bin/sh
+
+#
+# Gradle wrapper bootstrap — downloads Gradle if not cached.
+#
+
+APP_NAME="Gradle"
+APP_BASE_NAME=$(basename "$0")
+DEFAULT_JVM_OPTS='"-Xmx64m" "-Xms64m"'
+
+# Resolve links and find the script directory.
+PRG="$0"
+while [ -h "$PRG" ]; do
+    ls=$(ls -ld "$PRG")
+    link=$(expr "$ls" : '.*-> \(.*\)$')
+    if expr "$link" : '/.*' > /dev/null; then
+        PRG="$link"
+    else
+        PRG=$(dirname "$PRG")/"$link"
+    fi
+done
+SAVED="$(pwd)"
+cd "$(dirname "$PRG")/" >/dev/null || exit
+APP_HOME="$(pwd -P)"
+cd "$SAVED" >/dev/null || exit
+
+# Determine the Java command.
+if [ -n "$JAVA_HOME" ]; then
+    JAVACMD="$JAVA_HOME/bin/java"
+    if [ ! -x "$JAVACMD" ]; then
+        echo "ERROR: JAVA_HOME is set to an invalid directory: $JAVA_HOME" >&2
+        exit 1
+    fi
+else
+    JAVACMD="java"
+    if ! command -v java >/dev/null 2>&1; then
+        echo "ERROR: JAVA_HOME is not set and 'java' is not in PATH." >&2
+        exit 1
+    fi
+fi
+
+# Read properties.
+GRADLE_DIST_URL=$(grep 'distributionUrl' "$APP_HOME/gradle/wrapper/gradle-wrapper.properties" | sed 's/.*=//' | sed 's/\\:/:/g')
+GRADLE_DIST_DIR="$HOME/.gradle/wrapper/dists"
+
+# Use wrapper jar if present, otherwise download gradle directly.
+WRAPPER_JAR="$APP_HOME/gradle/wrapper/gradle-wrapper.jar"
+
+if [ -f "$WRAPPER_JAR" ]; then
+    exec "$JAVACMD" $DEFAULT_JVM_OPTS \
+        -classpath "$WRAPPER_JAR" \
+        org.gradle.wrapper.GradleWrapperMain "$@"
+else
+    # Fallback: download Gradle distribution directly.
+    GRADLE_VERSION=$(echo "$GRADLE_DIST_URL" | grep -oP 'gradle-\K[0-9.]+')
+    GRADLE_HOME="$GRADLE_DIST_DIR/gradle-$GRADLE_VERSION"
+
+    if [ ! -d "$GRADLE_HOME" ]; then
+        echo "Downloading Gradle $GRADLE_VERSION..."
+        mkdir -p "$GRADLE_DIST_DIR"
+        TEMP_ZIP=$(mktemp /tmp/gradle-XXXXXX.zip)
+        curl -fsSL "$GRADLE_DIST_URL" -o "$TEMP_ZIP" || wget -q "$GRADLE_DIST_URL" -O "$TEMP_ZIP"
+        unzip -q "$TEMP_ZIP" -d "$GRADLE_DIST_DIR"
+        rm -f "$TEMP_ZIP"
+    fi
+
+    exec "$GRADLE_HOME/bin/gradle" "$@"
+fi
