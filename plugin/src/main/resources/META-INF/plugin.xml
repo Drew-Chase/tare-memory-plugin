@@ -5,6 +5,13 @@
     <description><![CDATA[
         Inline Rust memory allocation viewer. Annotates source lines with
         heap allocation data from runtime profiling and static analysis.
+        <br/><br/>
+        <b>Automatic:</b> Static analysis runs on project open, flagging
+        allocation sites (Box::new, Vec::with_capacity, .collect(), etc.)
+        with no setup required.
+        <br/><br/>
+        <b>One-click profiling:</b> Use Tools > Run Tare Analysis to
+        capture real heap bytes via dhat and merge with static data.
     ]]></description>
 
     <depends>com.intellij.modules.platform</depends>
@@ -21,6 +28,16 @@
             id="dev.tare.plugin.settings"
             displayName="Tare Allocation Viewer"/>
 
+        <!-- Auto-run static analysis on project open -->
+        <postStartupActivity
+            implementation="dev.tare.plugin.TareStartupActivity"/>
+
+        <!-- Notification group for analysis progress/results -->
+        <notificationGroup
+            id="Tare"
+            displayType="BALLOON"
+            isLogByDefault="true"/>
+
         <!-- Declarative inlay hints (language-agnostic; filtering in createCollector) -->
         <codeInsight.declarativeInlayProvider
             implementationClass="dev.tare.plugin.TareInlayHintsProvider"
@@ -36,8 +53,18 @@
             language=""
             implementationClass="dev.tare.plugin.TareLineMarkerProvider"/>
 
-        <!-- Run configuration: one-button profiling -->
+        <!-- Run configuration: full-control profiling -->
         <configurationType
             implementation="dev.tare.plugin.TareRunConfigurationType"/>
     </extensions>
+
+    <actions>
+        <action id="Tare.Analyze"
+                class="dev.tare.plugin.TareAnalyzeAction"
+                text="Run Tare Analysis"
+                description="Analyze allocation sites and/or profile heap usage"
+                icon="AllIcons.Actions.ProfileCPU">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
+    </actions>
 </idea-plugin>

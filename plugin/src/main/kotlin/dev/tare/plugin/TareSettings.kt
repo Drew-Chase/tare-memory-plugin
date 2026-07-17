@@ -15,7 +15,9 @@ class TareSettings : PersistentStateComponent<TareSettings.State> {
     data class State(
         var enabled: Boolean = true,
         var minBytes: Long = 0,
-        var metric: Metric = Metric.CUMULATIVE
+        var metric: Metric = Metric.CUMULATIVE,
+        var autoRunStatic: Boolean = true,
+        var crateRoot: String = "."
     )
 
     enum class Metric {
@@ -32,6 +34,8 @@ class TareSettings : PersistentStateComponent<TareSettings.State> {
     val enabled get() = myState.enabled
     val minBytes get() = myState.minBytes
     val metric get() = myState.metric
+    val autoRunStatic get() = myState.autoRunStatic
+    val crateRoot get() = myState.crateRoot
 
     companion object {
         fun getInstance(project: Project): TareSettings =
