@@ -1,0 +1,14 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/tare-schema",
+    "crates/tare-collector",
+    "crates/tare-static",
+    "crates/tare-aggregate",
+    "crates/xtask",
+    "sample",
+]
+
+[workspace.package]
+edition = "2021"
+license = "MIT OR Apache-2.0"

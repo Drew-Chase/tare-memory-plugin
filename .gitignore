@@ -1,0 +1,10 @@
+/target
+**/target
+*.swp
+*.swo
+*~
+.idea/
+*.iml
+plugin/build/
+plugin/.gradle/
+dhat-heap.json
