@@ -1,0 +1,39 @@
+<idea-plugin>
+    <id>dev.tare.plugin</id>
+    <name>Tare</name>
+    <vendor>tare</vendor>
+    <description><![CDATA[
+        Inline Rust memory allocation viewer. Annotates source lines with
+        heap allocation data from runtime profiling and static analysis.
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Project service: loads and caches allocation data -->
+        <projectService
+            serviceImplementation="dev.tare.plugin.TareDataService"/>
+
+        <!-- Settings -->
+        <projectConfigurable
+            parentId="tools"
+            instance="dev.tare.plugin.TareSettingsConfigurable"
+            id="dev.tare.plugin.settings"
+            displayName="Tare Allocation Viewer"/>
+
+        <!-- Declarative inlay hints (language-agnostic; filtering in createCollector) -->
+        <codeInsight.declarativeInlayProvider
+            implementationClass="dev.tare.plugin.TareInlayHintsProvider"
+            isEnabledByDefault="true"
+            providerId="tare.allocation.hints"
+            language=""
+            bundle="messages.TareBundle"
+            nameKey="tare.inlay.provider.name"
+            group="OTHER_GROUP"/>
+
+        <!-- Gutter line markers -->
+        <codeInsight.lineMarkerProvider
+            language=""
+            implementationClass="dev.tare.plugin.TareLineMarkerProvider"/>
+    </extensions>
+</idea-plugin>
