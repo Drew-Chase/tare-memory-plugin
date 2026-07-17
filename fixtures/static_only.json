@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "generated_at": "2026-07-17T10:00:00Z",
+  "workspace_root": "/home/user/sample",
+  "files": {
+    "src/main.rs": {
+      "content_hash": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2",
+      "lines": {
+        "10": {
+          "entries": [
+            {
+              "source": "static",
+              "kind": "alloc_site",
+              "constructs": ["Vec::with_capacity"],
+              "amount_hint": "n * size_of::<Row>()"
+            }
+          ]
+        },
+        "22": {
+          "entries": [
+            {
+              "source": "static",
+              "kind": "alloc_site",
+              "constructs": ["Box::new"]
+            }
+          ]
+        },
+        "35": {
+          "entries": [
+            {
+              "source": "static",
+              "kind": "alloc_site",
+              "constructs": [".collect()"]
+            },
+            {
+              "source": "static",
+              "kind": "type_size",
+              "ty": "Row",
+              "stack_bytes": 24
+            }
+          ]
+        },
+        "41": {
+          "entries": [
+            {
+              "source": "static",
+              "kind": "alloc_site",
+              "constructs": [".clone()"],
+              "amount_hint": "size_of::<String>() + heap contents"
+            }
+          ]
+        },
+        "50": {
+          "entries": [
+            {
+              "source": "static",
+              "kind": "alloc_site",
+              "constructs": ["format!"]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

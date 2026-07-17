@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "generated_at": "2026-07-17T10:00:00Z",
+  "workspace_root": "/home/user/sample",
+  "files": {
+    "src/main.rs": {
+      "content_hash": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2",
+      "lines": {
+        "15": {
+          "entries": [
+            {
+              "source": "runtime",
+              "kind": "heap_cumulative",
+              "bytes": 393216,
+              "count": 3,
+              "peak_bytes": 131072,
+              "stacks": [
+                {
+                  "frames": [
+                    "sample::build_rows",
+                    "alloc::vec::Vec<T>::push",
+                    "alloc::raw_vec::RawVec<T,A>::grow_amortized"
+                  ],
+                  "bytes": 393216
+                }
+              ]
+            }
+          ]
+        },
+        "28": {
+          "entries": [
+            {
+              "source": "runtime",
+              "kind": "heap_cumulative",
+              "bytes": 48,
+              "count": 1,
+              "peak_bytes": 48,
+              "stacks": [
+                {
+                  "frames": [
+                    "sample::main",
+                    "alloc::boxed::Box<T>::new"
+                  ],
+                  "bytes": 48
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}
